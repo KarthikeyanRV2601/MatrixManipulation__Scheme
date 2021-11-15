@@ -10,10 +10,10 @@
 (provide matrix-sum-sub-main)
 
 (define (matrix-sum-sub-main N M type)
-  (let loop ((N N) (M M) (sumResult '()))
+  (let loop ((N N) (M M) (result '()))
     (if (or (null? N) (null? M))
-        (reverse sumResult)
+        (reverse result)
         (loop (cdr N) 
               (cdr M)
-              (cons ((matrix-sum-sub-operation type) N M) sumResult))))
+              (cons ((matrix-sum-sub-operation type) N M) result))))
 )

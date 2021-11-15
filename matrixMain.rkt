@@ -10,13 +10,14 @@
 (require "./modules/matrixDeterminant.rkt")
 (require "./modules/matrixTriangular.rkt")
 (require "./modules/validationProcedures.rkt")
+(require "./modules/matrixInverse.rkt")
 
-
-(display "enter n for matrix 1\n")
+(display "\n-----------------------------------\n")
+(display "enter number of rows for matrix 1\n")
 (define n1 (read))
-(display "enter m for matrix 1\n")
+(display "enter number of columns for matrix 1\n")
 (define m1 (read))
-
+(display "\n-----------------------------------\n")
 
 
 (if (validateDimensions n1 m1)
@@ -27,11 +28,12 @@
 (display "\nEnter elements of first matrix 1\n")
 (define matrix_N (construct-matrix n1 m1))
 
-(display "enter n for matrix 2\n")
+(display "\n-----------------------------------\n")
+(display "enter number of rows for matrix 2\n")
 (define n2 (read))
-(display "enter m for matrix 2\n")
+(display "enter number of columns for matrix 2\n")
 (define m2 (read))
-
+(display "\n-----------------------------------\n")
 
 (if (validateDimensions n2 m2)
 (display "\n")
@@ -49,30 +51,38 @@ matrix_N
 (display "\nmatrix_2\n")
 matrix_M
 
+(display "\n-----------------------------------\n")
 (display "\nMatrix addition\n")
 (if (validateSum-difference-Constraints n1 m1 n2 m2)
     (display (matrix-sum-sub-main matrix_N matrix_M 1))
     (display "\nThese matrices cannot be added or subtracted\n")
 )
+(display "\n-----------------------------------\n")
 
 (display "\nMatrix subtraction\n")
 (if (validateSum-difference-Constraints n1 m1 n2 m2)
     (display (matrix-sum-sub-main matrix_N matrix_M 2))
     (display "\nThese matrices cannot be added or subtracted\n")
 )
+(display "\n-----------------------------------\n")
 
 
 (display "\nMatrix 1 diagonal\n")
 (display (matrix-diagonal matrix_N))
+(display "\n-----------------------------------\n")
+
 
 (display "\nMatrix 2 diagonal\n")
 (display (matrix-diagonal matrix_M))
+(display "\n-----------------------------------\n")
 
 (display "\nMatrix 1 transpose\n")
 (display (matrix-transpose matrix_N))
+(display "\n-----------------------------------\n")
 
 (display "\nMatrix 2 transpose\n")
 (display (matrix-transpose matrix_M))
+(display "\n-----------------------------------\n")
 
 (display "\nMatrix multiplication\n")
 
@@ -80,6 +90,7 @@ matrix_M
   (display (matrix-mul matrix_N matrix_M)) 
   (display "\nThese matrices cannot be multiplied\n")
 )
+(display "\n-----------------------------------\n")
  
 
 (display "\nMatrix 1 determinant\n")
@@ -87,17 +98,26 @@ matrix_M
   (determinant matrix_N)
   (display "\nDeterminant of this matrix cannot be calculated\n")
 )
+(display "\n-----------------------------------\n")
 
 (display "\nMatrix 2 determinant\n")
 (if (multiplication-determinant-Constraints n2 m2) 
      (determinant matrix_M)
   (display "\nDeterminant of this matrix cannot be calculated\n")
 )
-
+(display "\n-----------------------------------\n")
 
 (display "\nLower triangular matrix\n")
 (triangular matrix_N 1) ;1 means lower triangle
+(display "\n-----------------------------------\n")
+
 
 (display "\nUpper triangular matrix\n")
 (triangular matrix_N 0) ;0 means upper triangle
+(display "\n-----------------------------------\n")
 
+
+
+(display "\nInverse of a matrix\n")
+(inverse matrix_M n1) ;0 means upper triangle
+(display "\n-----------------------------------\n")

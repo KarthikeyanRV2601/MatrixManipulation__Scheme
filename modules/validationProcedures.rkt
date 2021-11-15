@@ -11,3 +11,7 @@
 (define (multiplication-determinant-Constraints n m)
     (= n m)
 )
+
+;for inverse
+;matrix det nonzero cond
+;n=m
