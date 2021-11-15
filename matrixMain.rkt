@@ -3,15 +3,14 @@
 
 
 (require "./modules/matrixConstruct.rkt")
-(require "./modules/matrixAddition.rkt")
-(require "./modules/matrixSubtraction.rkt")
+(require "./modules/matrixAddSub.rkt")
 (require "./modules/matrixMultiplication.rkt")
 (require "./modules/matrixDiagonal.rkt")
 (require "./modules/matrixTranspose.rkt")
 (require "./modules/matrixDeterminant.rkt")
 (require "./modules/matrixTriangular.rkt")
-
 (require "./modules/validationProcedures.rkt")
+
 
 (display "enter n for matrix 1\n")
 (define n1 (read))
@@ -52,13 +51,13 @@ matrix_M
 
 (display "\nMatrix addition\n")
 (if (validateSum-difference-Constraints n1 m1 n2 m2)
-    (display (matrix-sum matrix_N matrix_M))
+    (display (matrix-sum-sub-main matrix_N matrix_M 1))
     (display "\nThese matrices cannot be added or subtracted\n")
 )
 
 (display "\nMatrix subtraction\n")
 (if (validateSum-difference-Constraints n1 m1 n2 m2)
-    (display (matrix-sub matrix_N matrix_M))
+    (display (matrix-sum-sub-main matrix_N matrix_M 2))
     (display "\nThese matrices cannot be added or subtracted\n")
 )
 
@@ -75,24 +74,23 @@ matrix_M
 (display "\nMatrix 2 transpose\n")
 (display (matrix-transpose matrix_M))
 
-; (display "\nMatrix multiplication\n")
-; (if (multiplication-determinant-Constraints n1 m2)
-;   (display (matrix-mul matrix_N matrix_M))  
-;   (display "\nThese matrices cannot be multiplied\n")
-; )
+(display "\nMatrix multiplication\n")
 
+(if (multiplication-determinant-Constraints n1 m2)
+  (display (matrix-mul matrix_N matrix_M)) 
+  (display "\nThese matrices cannot be multiplied\n")
+)
+ 
 
 (display "\nMatrix 1 determinant\n")
 (if (multiplication-determinant-Constraints n1 m1)
-     (matrix-determinant matrix_N)
-
+  (determinant matrix_N)
   (display "\nDeterminant of this matrix cannot be calculated\n")
 )
 
 (display "\nMatrix 2 determinant\n")
 (if (multiplication-determinant-Constraints n2 m2) 
-     (matrix-determinant matrix_M)
-
+     (determinant matrix_M)
   (display "\nDeterminant of this matrix cannot be calculated\n")
 )
 

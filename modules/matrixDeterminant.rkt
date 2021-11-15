@@ -1,53 +1,61 @@
 
 #lang racket
 
-(provide matrix-determinant)
+(provide determinant)
 
-
-
-(define (swap l i1 i2)
-  (let loop ((l l) (i1 (min i1 i2)) (i2 (max i1 i2)))
-    (if (= 0 i1)
+(define (switch-rows l i1 i2)
+  (let loop ((l l) (i2 i2))
       (cons (list-ref l i2)
-            (replace-index (cdr l) (- i2 1) (car l)))
-      (cons (car l)
-            (loop (cdr l) (- i1 1) (- i2 1))))))
+            (reconstruct (cdr l) (- i2 1) (car l)))))
 
-(define (replace-index l i v)
+(define (reconstruct l i v)
   (if (= i 0)
     (cons v (cdr l))
-    (cons (car l) (replace-index (cdr l) (+ 1 i) v))))
+    (cons (car l) (reconstruct (cdr l) (- 1 i) v))))
     
-(define (get-index pred l)
+(define (get-non-zero pred l)
   (let loop ((index 0) (l l))
-    (cond ((null? l) #f)
+    (cond ((null? l) -1)
           ((pred (car l)) index)
           (else (loop (+ 1 index) (cdr l))))))
 
+(define (determinant matrix)
+    (let ((index (get-non-zero (lambda (r) (not (= 0 (car r)))) matrix)))
+        (if (= index -1)
+        0
+        (let ((sign (if (= index 0) 1 -1))
+            (row-swapped (if (= index 0) matrix (switch-rows matrix 0 index))))
+        (let ((submatrix (findSubMatrix row-swapped)))
+            (if (null? submatrix)
+                (caar row-swapped)
+                (* sign (caar row-swapped) (determinant submatrix))
+            ))
+        ))
+    )
+)
 
-(define (matrix-determinant m)
-  (let ((index (get-index (lambda (r) (not (= 0 (car r)))) m)))
-    (if (not index)
-      0
-      (let ((swap-multiplier (if (= index 0) 1 -1))
-            (m-swapped (if (= index 0) m (swap m 0 index))))
-        (let ((submatrix (determinant-helper m-swapped)))
-          (if (null? submatrix)
-            (caar m-swapped)
-            (* swap-multiplier
-                (caar m-swapped)
-                (matrix-determinant submatrix))))))))
-
-
-(define (determinant-helper m)
-  (let ((first-row (car m)))
+(define (divide matrix element)
+    (if (= element 0) '((0))
     (map (lambda (row)
-            (let ((mult (/ (car row)
-                          (car first-row))))
-              (map (lambda (above current)
-                    (- current (* mult above)))
-                  (cdr first-row)
-                  (cdr row))))
-          (cdr m))))
+            (cons (/ (car row) element) (cdr row))
+        )matrix)
+    )   
+)
+
+(define (makeSubmatrix matrix)
+    (let ((top (car matrix)))
+        (map (lambda (row)
+                (let ((mult (car row)))
+                    (map (lambda (firstRow curRow)
+                            (- curRow  (* mult firstRow)))
+                        (cdr top)
+                        (cdr row))))
+            (cdr matrix))))
+            
+(define (findSubMatrix matrix)
+    (let ((unitMatrix (divide matrix (caar matrix))))
+        (makeSubmatrix unitMatrix)
+    )
+)
 
 
