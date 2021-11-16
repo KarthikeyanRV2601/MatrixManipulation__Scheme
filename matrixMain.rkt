@@ -9,8 +9,8 @@
 (require "./modules/matrixTranspose.rkt")
 (require "./modules/matrixDeterminant.rkt")
 (require "./modules/matrixTriangular.rkt")
-(require "./modules/validationProcedures.rkt")
 (require "./modules/matrixInverse.rkt")
+(require "./modules/validationProcedures.rkt")
 
 (display "\n-----------------------------------\n")
 (display "enter number of rows for matrix 1\n")
@@ -118,6 +118,17 @@ matrix_M
 
 
 
-(display "\nInverse of a matrix\n")
-(inverse matrix_M n1) ;0 means upper triangle
+(display "\nInverse of a matrix 1\n")
+(if (inverse-condition matrix_N n1 m1)
+  (display (inverse matrix_N n1))
+  (display "\nInverse of matrix 1 cannot be calculated\n")
+)
+(display "\n-----------------------------------\n")
+
+
+(display "\nInverse of a matrix 2\n")
+(if (inverse-condition matrix_M n2 m2)
+  (display (inverse matrix_M n2))
+  (display "\nInverse of matrix 2 cannot be calculated\n")
+) 
 (display "\n-----------------------------------\n")
