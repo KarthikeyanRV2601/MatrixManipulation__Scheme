@@ -1,7 +1,7 @@
 #lang racket
 
 (require "./matrixDeterminant.rkt")
-(provide validateDimensions validateSum-difference-Constraints multiplication-determinant-Constraints inverse-condition)
+(provide validateDimensions validateSum-difference-Constraints multiplication-determinant-Constraints inverse-condition isEmptyList)
 
 (define (validateDimensions n m)
     (and (> n 0) (> m 0))
@@ -19,4 +19,6 @@
     (and (not (= (determinant matrix) 0)) (multiplication-determinant-Constraints n m))
 )
 
-
+(define (isEmptyList listPassed)
+    (null? listPassed)
+)

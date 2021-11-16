@@ -4,7 +4,7 @@
 
 
 (define (list_dynamic_reducer operator list_instance)
-  (let iter (
+  (let loop (
     ;defining accumulator to store the accumulated result
     (accumulator (car list_instance)) 
     ;defining list to reduce on
@@ -12,19 +12,19 @@
     )
     (if (null? list_instance) 
       accumulator
-      (iter (operator accumulator (car list_instance)) (cdr list_instance)))))
+      (loop (operator accumulator (car list_instance)) (cdr list_instance)))))
 
 
 
 (define (get_nth_matrixcol M n)
-  (let iter (
+  (let loop (
     ;defining iterator
     (i (length M)) 
     ;a list to store the nth column of the matrix
     (result '()))
     (if (= i 0)
         result
-        (iter (- i 1)
+        (loop (- i 1)
               (cons (get_list_element (get_list_element M (- i 1)) n) result)))))
 
 (define (get_list_element list n)
@@ -37,17 +37,18 @@
     (lambda (N M) (map operator N M))
   )
 
-(define (matrix-mul N M)
+
+(define (matrix-mul Matrix_N Matrix_M)
   (let row_wise_iterator (
     ;defining iterator 
-    (i (length N)) 
+    (i (length Matrix_N)) 
     ;a list of lists that stores the resultant multiplied matrix
     (matrix_multiplied '()))
     
     (if (= i 0) 
       matrix_multiplied
       (row_wise_iterator (- i 1)
-        (cons (let col_wise_iterator ((j (length (car M))) (constructed_row '()))
+        (cons (let col_wise_iterator ((j (length (car Matrix_M))) (constructed_row '()))
             (if (= j 0)
               constructed_row
               (col_wise_iterator (- j 1) 
@@ -55,7 +56,7 @@
               ;list reducer here calculates the sum of all elements in list
               (list_dynamic_reducer + (
                 ;row mul operation returns a list obtained by  multiplicative mapping of the row and coloumn
-                (row-mul-operation *)(get_list_element N (- i 1)) (get_nth_matrixcol M (- j 1)))) 
+                (row-mul-operation *)(get_list_element Matrix_N (- i 1)) (get_nth_matrixcol Matrix_M (- j 1)))) 
               constructed_row)
               )
             )

@@ -11,7 +11,7 @@
 (require "./modules/matrixTriangular.rkt")
 (require "./modules/matrixInverse.rkt")
 (require "./modules/validationProcedures.rkt")
-
+(require racket/pretty)
 (display "\n-----------------------------------\n")
 (display "enter number of rows for matrix 1\n")
 (define n1 (read))
@@ -46,7 +46,7 @@
 
 
 (display "\nmatrix_1\n")
-matrix_N
+(pretty-print matrix_N)
 
 (display "\nmatrix_2\n")
 matrix_M
@@ -130,5 +130,7 @@ matrix_M
 (if (inverse-condition matrix_M n2 m2)
   (display (inverse matrix_M n2))
   (display "\nInverse of matrix 2 cannot be calculated\n")
-) 
+)
 (display "\n-----------------------------------\n")
+
+
